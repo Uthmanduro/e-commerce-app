@@ -3,15 +3,20 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 // import { UpdateProductDto } from './dto/update-product.dto';
+import { ApiResponseInterceptor } from 'src/common/interceptors/api-response-interceptors';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('products')
+@UseInterceptors(ApiResponseInterceptor)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -22,12 +27,13 @@ export class ProductsController {
 
   @Get()
   findAll() {
-    return this.productsService.findAll();
+    return this.productsService.getProducts();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.getProductById(id);
   }
 
   // @Patch(':id')
@@ -37,6 +43,6 @@ export class ProductsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(id);
   }
 }

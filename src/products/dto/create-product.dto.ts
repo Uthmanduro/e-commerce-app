@@ -6,7 +6,7 @@ import {
   Length,
   Validate,
 } from 'class-validator';
-// import { ProductDescription } from '../custom-validators/ProductDescription';
+import { ProductDescription } from '../custom-validators/ProductDescription';
 import { ProductSpecs } from '../custom-validators/ProductSpec';
 export class CreateProductDto {
   @IsString({
@@ -23,7 +23,7 @@ export class CreateProductDto {
   @Length(25, 255, {
     message: 'description must be between 25 and 255 characters',
   })
-  //   @Validate(ProductDescription)
+  @Validate(ProductDescription)
   description: string;
 
   @IsDecimal(

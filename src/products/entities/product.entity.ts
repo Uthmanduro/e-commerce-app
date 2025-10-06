@@ -1,5 +1,5 @@
-import { timestamp } from 'rxjs';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Entity('products')
 export class Product {
@@ -33,4 +33,7 @@ export class Product {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Order, (order) => order.product)
+  orders: Order[];
 }

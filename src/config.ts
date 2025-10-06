@@ -7,15 +7,17 @@ enum ENVIRONMENT_VARIABLES {
   DATABASE_PASSWORD = 'DATABASE_PASSWORD',
   DATABASE_NAME = 'DATABASE_NAME',
   DATABASE_PORT = 'DATABASE_PORT',
+  GEMINI_KEY = 'GEMINI_KEY',
+  JWT_SECRET = 'JWT_SECRET',
 }
 
 function getEnv(variableName: ENVIRONMENT_VARIABLES) {
-  const envKey = ENVIRONMENT_VARIABLES[variableName];
-  const foundEnv = process.env[envKey];
-  const message = `${envKey} was not found!`;
+  // const envKey = ENVIRONMENT_VARIABLES[variableName];
+  const foundEnv = process.env[variableName];
+  // const message = `${envKey} was not found!`;
   if (!foundEnv) {
-    console.log(message);
-    throw Error(message);
+    // console.log(message);
+    throw Error(`${variableName} was not found!`);
   }
   return foundEnv;
 }
@@ -28,4 +30,6 @@ export const APP_CONFIGS = {
     name: getEnv(ENVIRONMENT_VARIABLES.DATABASE_NAME),
     port: parseInt(getEnv(ENVIRONMENT_VARIABLES.DATABASE_PORT), 10),
   },
+  geminiKey: getEnv(ENVIRONMENT_VARIABLES.GEMINI_KEY),
+  jwtSecret: getEnv(ENVIRONMENT_VARIABLES.JWT_SECRET),
 };
